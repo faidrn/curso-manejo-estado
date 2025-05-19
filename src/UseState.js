@@ -2,7 +2,26 @@ import React from 'react';
 
 
 function UseState({ name }){
-    const [error, setError] = React.useState(false);
+    const [error, setError] = React.useState(true);
+    const [loading, setLoading] = React.useState(false);
+
+    // Usamos useEffect para eliminar el estado de carga (loading)
+    React.useEffect(() => {
+        console.log("Empezando el efecto");
+
+        if (!!loading){
+            setTimeout(() => {
+                console.log("Haciendo la validacion");
+                
+                setLoading(false);
+
+                console.log("Terminando la validacion");
+            }, 3000);
+        }
+        
+
+        console.log("Terminando el efecto");
+    }, [loading]); // Este array vacio indica que este código solo se va a ejecutar cuando se renderice por primera vez
 
     return (
         <div>
@@ -14,9 +33,13 @@ function UseState({ name }){
                 <p>Error: el código es incorrecto</p>
             )}
 
+            {loading && (
+                <p>Cargando...</p>
+            )}
+
             <input placeholder='Código de seguridad' />
             <button
-                onClick={() => setError(!error)}
+                onClick={() => setLoading(true)}
             >
                 Comprobar
             </button>
