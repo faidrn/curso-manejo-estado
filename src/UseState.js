@@ -1,9 +1,14 @@
 import React from 'react';
 
 
+const SECURITY_CODE = 'paradigma';
+
 function UseState({ name }){
-    const [error, setError] = React.useState(true);
+    const [value, setValue] = React.useState(''); // Este estado cambia o depende de lo que los usuarios digiten
+    const [error, setError] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
+
+    console.log(value);
 
     // Usamos useEffect para eliminar el estado de carga (loading)
     React.useEffect(() => {
@@ -12,6 +17,10 @@ function UseState({ name }){
         if (!!loading){
             setTimeout(() => {
                 console.log("Haciendo la validacion");
+                
+                if (value !== SECURITY_CODE){
+                    setError(true);
+                }
                 
                 setLoading(false);
 
@@ -37,7 +46,13 @@ function UseState({ name }){
                 <p>Cargando...</p>
             )}
 
-            <input placeholder='Código de seguridad' />
+            <input 
+                placeholder='Código de seguridad' 
+                value={value}
+                onChange={(event) => {
+                    setValue(event.target.value);
+                }}
+            />
             <button
                 onClick={() => setLoading(true)}
             >
