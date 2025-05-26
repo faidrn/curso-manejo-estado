@@ -1,4 +1,5 @@
 import React from 'react';
+import { Loading } from './loading';
 
 
 class ClassState extends React.Component{
@@ -7,6 +8,32 @@ class ClassState extends React.Component{
 
         this.state = {
             error: true,
+            loading: false,
+        }
+    }
+
+    // En las clases usamos métodos del ciclo de vida en vez de useEffect
+    // este método se ejecuta antes de renderizar el componente
+    /* UNSAFE_componentWillMount(){
+        console.log("componentWillMount");
+    } */
+
+    /* componentDidMount(){
+        console.log("componentDidMount");
+    } */
+
+    componentDidUpdate(){
+        console.log("Actualizacción");
+
+        // Si loading es true, vamos a actualizar el estado para q loading sea false
+        if (!!this.state.loading){
+            setTimeout(() => {
+                console.log("Haciendo validación");
+
+                this.setState({ loading: false });
+
+                console.log("Terminando validación");
+            }, 2000);
         }
     }
 
@@ -21,9 +48,13 @@ class ClassState extends React.Component{
                     <p>Error: el código es incorrecto</p>
                 )}
 
+                {this.state.loading && (
+                    <Loading />
+                )}
+
                 <input placeholder='Código de seguridad' />
                 <button
-                    onClick={() => this.setState({error: !this.state.error})}
+                    onClick={() => this.setState({loading: true})}
                 >
                     Comprobar
                 </button>
