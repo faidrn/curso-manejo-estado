@@ -15,6 +15,7 @@ function UseState({ name }){
         console.log("Empezando el efecto");
 
         if (!!loading){
+            setError(false); // Quitamos el mensaje de error cada vez q esta comparando los códigos
             setTimeout(() => {
                 console.log("Haciendo la validacion");
                 
